@@ -1,7 +1,7 @@
 # Story 2.1: BoundedSPSCBuffer<Float>
 
 **Epic:** 2 — Headless Core
-**Status:** in_progress
+**Status:** done
 **Owner:** story-executor-2.1
 
 ## User Story

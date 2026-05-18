@@ -52,7 +52,12 @@ stories:
   - id: "2.1"
     title: BoundedSPSCBuffer<Float>
     epic: 2
-    state: backlog
+    state: done
+    commits:
+      - "c63806a2 test(story-2.1): acceptance tests (red)"
+      - "9508aa7b feat(story-2.1): BoundedSPSCBuffer<T> ring buffer"
+      - "25dfe320 refactor(story-2.1): KISS compliance"
+    notes: "BoundedSPSCBuffer.swift (167 LOC) is a public final generic class (NOT actor) with fixed init(capacity:), [T?] storage, write([T]) / read() -> ArraySlice<T> / removeAll() API, OSAllocatedUnfairLock-guarded head/tail/_overrunCount, and overrunStream AsyncStream<Int> emitting cumulative overrunCount on every drop. Two-stage drop logic: if incoming.count > capacity, drop batch prefix (droppedFromBatch); then if remaining > available, drop oldest from ring (droppedFromRing); sum into _overrunCount and yield on overrunStream. BoundedSPSCBufferTests.swift covers round-trip, partial reads, both overrun cases (incremental + single huge batch), removeAll zero-retain (re-usable post-reset), overrunStream delivery via Task+for-await, and a 10 000-op DispatchQueue producer/consumer fuzz asserting pulled.count + overrunCount == produced and consumer sees strictly monotonic FIFO (no dup, no re-order). Deviation: architecture §A says 'no locks; Atomic head/tail indices' — implementation uses OSAllocatedUnfairLock instead because (a) swift-atomics is not on SPM graph, (b) stdlib Synchronization.UnsafeAtomic is Swift 6 only and project is Swift 5.10, (c) lock guards O(1) integer ops with negligible SPSC contention. Public API is identical to the eventual lock-free version, swappable later without consumer changes. Documented in BoundedSPSCBuffer.swift header and story-2.1.md. swiftc -typecheck BoundedSPSCBuffer.swift: OK (Foundation + os). BoundedSPSCBufferTests.swift requires XCTest / @testable import CactusVoice, deferred to a host with Xcode.app (same constraint as 1.1-1.5). xcodegen re-generated cleanly (no project.yml change; Audio/ folders picked up by existing globs)."
   - id: "2.2"
     title: TranscriptModel actor + TranscriptUpdate enum
     epic: 2
