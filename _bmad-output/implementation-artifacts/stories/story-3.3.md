@@ -1,7 +1,7 @@
 # Story 3.3: SileroVAD actor
 
 **Epic:** 3 — Audio Capture & Whisper Streaming
-**Status:** in_progress
+**Status:** done
 **Owner:** story-executor-3.3
 
 ## User Story
@@ -83,13 +83,13 @@ external surface.
 ## Tasks
 
 - [x] T1 — Author this story file.
-- [ ] T2 — Acceptance tests (red): `CactusVoiceTests/StoryAcceptance/Story3_3Tests.swift`.
-- [ ] T3 — Implement:
+- [x] T2 — Acceptance tests (red): `CactusVoiceTests/StoryAcceptance/Story3_3Tests.swift`.
+- [x] T3 — Implement:
   - `Inference/SileroVAD.swift` (~180-220 LOC)
   - `CactusVoiceTests/Inference/SileroVADTests.swift` (~180-240 LOC)
-- [ ] T4 — `swiftc -typecheck` SileroVAD.swift + dependent files: pass (exit 0).
-- [ ] T5 — Regenerate `.xcodeproj` via `xcodegen generate`.
-- [ ] T6 — KISS pass.
+- [x] T4 — `swiftc -typecheck` SileroVAD.swift + dependent files: pass (exit 0).
+- [x] T5 — Regenerate `.xcodeproj` via `xcodegen generate`.
+- [x] T6 — KISS pass.
 
 ## Dev Notes
 
