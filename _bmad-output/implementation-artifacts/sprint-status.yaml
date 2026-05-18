@@ -1,0 +1,74 @@
+sprint:
+  name: CactusVoice — Epics 1–3
+  epic_range: [1, 2, 3]
+  state: in_progress
+  started: 2026-05-18
+  fork_remote: origin → https://github.com/zye3776/cactus.git
+  upstream_remote: upstream → https://github.com/cactus-compute/cactus
+  push_target: origin (fork only)
+
+stories:
+  - id: "1.1"
+    title: Initialize Xcode workspace and two targets
+    epic: 1
+    state: done
+    commits:
+      - "117bdea3 test(story-1.1): acceptance tests (red)"
+      - "f8baf727 feat(story-1.1): bootstrap CactusVoice workspace"
+    notes: "xcodegen project generation verified locally; xcodebuild skipped (host has CLT only, no Xcode.app). ACs 1-6 statically verified on disk; ACs 7-8 (xcodebuild clean + .app launches) deferred to a developer/CI machine with full Xcode."
+  - id: "1.2"
+    title: Define cactus_c.h FFI surface (widened for accuracy pipeline)
+    epic: 1
+    state: backlog
+  - id: "1.3"
+    title: Measurement spike — bundle + tiered resident memory
+    epic: 1
+    state: backlog
+  - id: "1.4"
+    title: AppError enum + os.Logger conventions
+    epic: 1
+    state: backlog
+  - id: "1.5"
+    title: Settings persistence (UserDefaults + Codable + @Observable mirror)
+    epic: 1
+    state: backlog
+  - id: "2.1"
+    title: BoundedSPSCBuffer<Float>
+    epic: 2
+    state: backlog
+  - id: "2.2"
+    title: TranscriptModel actor + TranscriptUpdate enum
+    epic: 2
+    state: backlog
+  - id: "2.3"
+    title: TranscriptTextStorage (NSTextStorage subclass)
+    epic: 2
+    state: backlog
+  - id: "2.4"
+    title: PermissionsCoordinator (mic + security-scoped bookmarks)
+    epic: 2
+    state: backlog
+  - id: "2.5"
+    title: ModelCatalog (bookmark store + can-open probe)
+    epic: 2
+    state: backlog
+  - id: "3.1"
+    title: CactusRuntime actor (lazy load, residency, three model slots)
+    epic: 3
+    state: backlog
+  - id: "3.2"
+    title: WhisperSession actor with research-informed decoding flags
+    epic: 3
+    state: backlog
+  - id: "3.3"
+    title: SileroVAD actor
+    epic: 3
+    state: backlog
+  - id: "3.4"
+    title: AudioCapture actor with pre-roll + VAD-driven segmentation
+    epic: 3
+    state: backlog
+  - id: "3.5"
+    title: End-to-end baseline wiring + integration test
+    epic: 3
+    state: backlog
