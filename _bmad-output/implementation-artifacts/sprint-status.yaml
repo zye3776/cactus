@@ -19,7 +19,11 @@ stories:
   - id: "1.2"
     title: Define cactus_c.h FFI surface (widened for accuracy pipeline)
     epic: 1
-    state: backlog
+    state: done
+    commits:
+      - "9d125972 test(story-1.2): acceptance tests (red)"
+      - "fd16cdf5 feat(story-1.2): cactus_c.h FFI surface + Swift shim"
+    notes: "Strict-C11 header parses cleanly (clang -fsyntax-only -Wall -Wpedantic -Werror -std=c11). FFIStub.c (weak stubs returning cactus_status_err_unimplemented) lets the static lib link without libcactus. FFIShim.swift mirrors the C surface 1-1 (no policy, no caching, no logging); typecheck passes via -import-objc-header. module.modulemap exposes cactus_c.h alongside the existing umbrella. xcodegen re-generates .xcodeproj cleanly. Real cactus runtime wiring is deferred to Story 3.1 (CactusRuntime)."
   - id: "1.3"
     title: Measurement spike — bundle + tiered resident memory
     epic: 1

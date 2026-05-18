@@ -25,3 +25,23 @@ events:
     agent: story-executor-1.1
     event: story_completed
     detail: "Story 1.1 done. 2 commits (117bdea3 red tests, f8baf727 bootstrap). xcodebuild status: skipped (no Xcode.app on host). KISS pass: clean, no follow-up commit needed (project.yml 79 LOC, app entry 16 LOC)."
+  - timestamp: 2026-05-18T17:45:00Z
+    agent: story-executor-1.2
+    event: story_started
+    detail: "Story 1.2 picked up: define cactus_c.h FFI surface (widened for accuracy pipeline) + FFIShim.swift mirror + FFIStub.c."
+  - timestamp: 2026-05-18T17:50:00Z
+    agent: story-executor-1.2
+    event: tests_red
+    detail: "Authored Story1_2Tests.swift covering required symbols, whisper opts fields, top-K + logprobs, cactus_status_t shape, per-function doc comments, modulemap exposure, FFIShim mirroring, no C++ in header, strict-C11 clang -fsyntax-only gate. Commit 9d125972 'test(story-1.2): acceptance tests (red)' pushed to origin/main."
+  - timestamp: 2026-05-18T18:00:00Z
+    agent: story-executor-1.2
+    event: implementation_committed
+    detail: "Wrote cactus_c.h (216 LOC, flat C11), updated module.modulemap to expose it, wrote FFIShim.swift (290 LOC, 1-1 marshaling, no policy), wrote FFIStub.c (112 LOC, weak stubs returning cactus_status_err_unimplemented). xcodegen re-generated .xcodeproj. Commit fd16cdf5 'feat(story-1.2): cactus_c.h FFI surface + Swift shim' pushed to origin/main."
+  - timestamp: 2026-05-18T18:02:00Z
+    agent: story-executor-1.2
+    event: build_verification
+    detail: "clang -fsyntax-only -Wall -Wpedantic -Werror -std=c11 on cactus_c.h: OK. Same on FFIStub.c: OK. swiftc -typecheck FFIShim.swift via -import-objc-header bridging path: OK (exit 0). xcodebuild full build SKIPPED: host has CLT only, no Xcode.app; ACs verified statically + by toolchain-only checks."
+  - timestamp: 2026-05-18T18:03:00Z
+    agent: story-executor-1.2
+    event: story_completed
+    detail: "Story 1.2 done. 2 commits (9d125972 red tests, fd16cdf5 impl). KISS pass: clean — header is flat (no macros beyond status #defines), FFIShim is 1-1 with C, no follow-up commit needed."
