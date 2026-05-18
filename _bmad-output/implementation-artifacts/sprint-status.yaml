@@ -61,7 +61,11 @@ stories:
   - id: "2.2"
     title: TranscriptModel actor + TranscriptUpdate enum
     epic: 2
-    state: backlog
+    state: done
+    commits:
+      - "3882af62 test(story-2.2): acceptance tests (red)"
+      - "823631fa feat(story-2.2): TranscriptModel actor + TranscriptUpdate"
+    notes: "TranscriptUpdate.swift (27 LOC) — enum with .commit/.revise/.userEdit, each carrying Range<AttributedString.Index> + AttributedString. TranscriptModel.swift (156 LOC) — actor with committed + provisional AttributedStrings, throws-marked commit/revise/userEdit, AsyncStream<TranscriptUpdate> updates broadcast via AsyncStream.makeStream continuation on every successful mutation. Provisional region styled with NSColor.secondaryLabelColor (AppKit, macOS-only); committed appends strip the foreground colour so the seam is visible. TranscriptModelError covers .rangeNotInProvisional + .rangeNotInCommitted. Deviation (documented in source + story-2.2.md): the TranscriptUpdate `range` axis indexes into provisional for commit/revise and into committed for userEdit — the actor keeps two separate AttributedStrings (per Concern #3, one writer) rather than maintaining a third merged-view string. Story 2.3's NSTextStorage will map per-case ranges into its combined view. TranscriptModelTests.swift (218 LOC) covers empty-init invariants, commit-grows-prefix, revise-replaces-tail, userEdit-mutates-prefix, three illegal-range throw cases (cross-field range against each method), AsyncStream in-order delivery (revise → commit → userEdit), and concurrent commit + userEdit via TaskGroup asserting committed contains AAA + BBB + X and provisional ends empty. swiftc -typecheck on both production files (target arm64-apple-macos14.0, Foundation + AppKit) passes. Runtime tests + Story2_2Tests static greps require XCTest / @testable import CactusVoice and run on a host with Xcode.app (same constraint as 1.1-2.1). xcodegen regenerated cleanly (no project.yml change; Transcript/ folders picked up by existing globs). KISS: no merged-view getter, no extra observability, no style helpers beyond apply/strip — two strings + three funcs + one stream."
   - id: "2.3"
     title: TranscriptTextStorage (NSTextStorage subclass)
     epic: 2

@@ -137,3 +137,27 @@ events:
     agent: story-executor-2.1
     event: story_completed
     detail: "Story 2.1 done. 3 commits (c63806a2 red tests + story file, 9508aa7b impl, 25dfe320 KISS). swiftc status: BoundedSPSCBuffer.swift typechecks clean (Foundation + os only). All 8 ACs satisfied subject to the documented OSAllocatedUnfairLock deviation (architecture §A specified 'Atomic head/tail; no locks' — deferred to a follow-up swap to either swift-atomics SPM or Swift 6 stdlib Synchronization without changing the public API). Concurrency stress test (10 000 ops) defers actual runtime execution to a host with Xcode.app + XCTest, same constraint as 1.1-1.5."
+  - timestamp: 2026-05-18T20:05:00Z
+    agent: story-executor-2.2
+    event: story_started
+    detail: "Story 2.2 picked up: TranscriptModel actor + TranscriptUpdate enum. Host CLT-only (no Xcode.app); static greps will guard the on-disk contract, runtime tests deferred to a host with XCTest."
+  - timestamp: 2026-05-18T20:08:00Z
+    agent: story-executor-2.2
+    event: tests_red
+    detail: "Authored Story2_2Tests.swift (10 grep-level ACs: file paths, TranscriptUpdate enum + three cases + Range<AttributedString.Index> + AttributedString, actor declaration, committed/provisional/commit/revise/userEdit/updates symbols, AsyncStream<TranscriptUpdate>, AppKit + secondaryLabelColor, three throws-marked mutations, TranscriptModelError defined, runtime tests file present, ≤ 40 LOC / ≤ 200 LOC budgets) + story-2.2.md with the range-axis deviation. Commit 3882af62 'test(story-2.2): acceptance tests (red)' pushed to origin/main."
+  - timestamp: 2026-05-18T20:18:00Z
+    agent: story-executor-2.2
+    event: implementation_committed
+    detail: "TranscriptUpdate.swift (27 LOC, ≤ 40 budget) declares enum with three cases. TranscriptModel.swift (156 LOC, ≤ 200 budget) declares actor with committed + provisional AttributedStrings, throws-marked commit/revise/userEdit, AsyncStream<TranscriptUpdate> built via AsyncStream.makeStream(of:bufferingPolicy:.unbounded). Provisional styling applied via AttributeContainer with NSColor.secondaryLabelColor; committed appends call stripProvisionalStyle so foregroundColor is nil on the prefix. TranscriptModelError covers .rangeNotInProvisional + .rangeNotInCommitted. commit() replaces provisional[range] with text, computes the new span via character-offset arithmetic on the post-replace string, appends a styling-stripped copy to committed, and removes the now-committed span from provisional. revise() replaces in place + re-applies provisional styling. userEdit() replaces committed[range] verbatim. TranscriptModelTests.swift (218 LOC) covers empty-init invariants, commit-grows-prefix, revise-replaces-tail, userEdit-mutates-prefix, three illegal-range throws (cross-field ranges against each method), AsyncStream ordering via Task + for-await + 3-event break, and concurrent commit + userEdit via TaskGroup with empty-range append for userEdit (so commit/userEdit ordering doesn't change the final invariant). Commit 823631fa 'feat(story-2.2): TranscriptModel actor + TranscriptUpdate' pushed to origin/main."
+  - timestamp: 2026-05-18T20:19:00Z
+    agent: story-executor-2.2
+    event: build_verification
+    detail: "swiftc -typecheck apps/CactusVoice/CactusVoice/Transcript/TranscriptUpdate.swift apps/CactusVoice/CactusVoice/Transcript/TranscriptModel.swift -target arm64-apple-macos14.0 -sdk $(xcrun --sdk macosx --show-sdk-path): OK (exit 0, Foundation + AppKit). TranscriptModelTests.swift requires XCTest / @testable import CactusVoice and runs on a host with Xcode.app, same constraint as 1.1-2.1. xcodegen regenerated CactusVoice.xcodeproj cleanly (no project.yml change; Transcript/ folders under existing sources globs). All 10 Story2_2Tests grep-level checks pass on disk."
+  - timestamp: 2026-05-18T20:20:00Z
+    agent: story-executor-2.2
+    event: kiss_review
+    detail: "KISS pass: no refactor commit needed. Implementation already minimal — two AttributedStrings, three throws-marked funcs, one AsyncStream + continuation, one error enum, two static styling helpers (apply + strip, both required: apply on init + post-mutation provisional re-style; strip on commit-time append into committed). Rejected expansions: no merged-view getter (would violate Concern #3 'one writer'), no replay buffer on updates (subscribers in Story 2.3 attach at app launch before first update), no per-attribute styling beyond foregroundColor."
+  - timestamp: 2026-05-18T20:21:00Z
+    agent: story-executor-2.2
+    event: story_completed
+    detail: "Story 2.2 done. 2 commits (3882af62 red tests + story file, 823631fa impl). swiftc status: TranscriptUpdate.swift + TranscriptModel.swift typecheck clean (Foundation + AppKit, target arm64-apple-macos14.0). Range-axis interpretation documented as a deviation in source headers + story-2.2.md: TranscriptUpdate.range is per-field (provisional for commit/revise, committed for userEdit) because the actor stores two AttributedStrings, not one merged view — Story 2.3's NSTextStorage maps per-case ranges into the combined view. All 8 ACs satisfied subject to the standard CLT-host XCTest deferral."
