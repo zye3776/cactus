@@ -1,4 +1,5 @@
 module CactusCore {
     umbrella header "include/CactusCore.h"
+    header "include/cactus_c.h"
     export *
 }
