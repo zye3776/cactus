@@ -1,0 +1,79 @@
+name: CactusVoice
+options:
+  bundleIdPrefix: com
+  createIntermediateGroups: true
+  deploymentTarget:
+    macOS: "14.0"
+  developmentLanguage: en
+
+settings:
+  base:
+    ARCHS: arm64
+    ONLY_ACTIVE_ARCH: NO
+    SWIFT_VERSION: "5.10"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    SUPPORTED_PLATFORMS: macosx
+    GCC_TREAT_WARNINGS_AS_ERRORS: YES
+    SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
+
+packages:
+  KeyboardShortcuts:
+    url: https://github.com/sindresorhus/KeyboardShortcuts
+    from: 2.4.0
+
+targets:
+  CactusVoice:
+    type: application
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: CactusVoice
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.cactusvoice
+        INFOPLIST_FILE: CactusVoice/Info.plist
+        CODE_SIGN_ENTITLEMENTS: CactusVoice/CactusVoice.entitlements
+        ENABLE_HARDENED_RUNTIME: YES
+        CODE_SIGN_STYLE: Automatic
+        GENERATE_INFOPLIST_FILE: NO
+    dependencies:
+      - target: CactusCore
+        embed: false
+      - package: KeyboardShortcuts
+
+  CactusCore:
+    type: library.static
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: CactusCore
+    settings:
+      base:
+        HEADER_SEARCH_PATHS:
+          - $(SRCROOT)/CactusCore/include
+        MODULEMAP_FILE: $(SRCROOT)/CactusCore/module.modulemap
+        DEFINES_MODULE: YES
+        CLANG_ENABLE_MODULES: YES
+
+  CactusVoiceTests:
+    type: bundle.unit-test
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: CactusVoiceTests
+    dependencies:
+      - target: CactusVoice
+
+schemes:
+  CactusVoice:
+    build:
+      targets:
+        CactusVoice: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - CactusVoiceTests
+    archive:
+      config: Release

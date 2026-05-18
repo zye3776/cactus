@@ -1,0 +1,16 @@
+# XcodeGen materializes the project from project.yml — don't track the output.
+*.xcodeproj/
+!*.xcworkspace/
+
+# Per-user state
+**/xcuserdata/
+**/*.xcuserstate
+
+# Build products
+build/
+DerivedData/
+.build/
+
+# Resolved SPM state (regenerated on first build)
+**/Package.resolved
+*.xcworkspace/xcshareddata/swiftpm/
