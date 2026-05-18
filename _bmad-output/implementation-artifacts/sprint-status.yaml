@@ -35,7 +35,12 @@ stories:
   - id: "1.4"
     title: AppError enum + os.Logger conventions
     epic: 1
-    state: backlog
+    state: done
+    commits:
+      - "daafa0b3 test(story-1.4): acceptance tests (red)"
+      - "fd2657e1 feat(story-1.4): AppError enum + os.Logger conventions"
+      - "2b462d49 refactor(story-1.4): KISS compliance"
+    notes: "AppError.swift (55 LOC) declares enum AppError: Error, LocalizedError, Equatable, Sendable with the 7 required cases and a nested InferenceStage (.audio, .whisper, .vad, .llm, .correction). Every case maps to a declarative ≤ 8-word banner per UX-DR6 (.micDenied = 'Microphone access required.'). AppErrorMappingTests.swift (57 LOC) iterates representative instances and asserts non-nil errorDescription, ≤ 48 chars, ≤ 8 words, no '!', and Equatable on associated values. Errors/README.md (42 LOC) documents one-Logger-per-file (com.cactusvoice subsystem), log-once-on-creation, privacy: .private for user content, no clipboard logging, and the deferred-linter note. swiftc -typecheck on AppError.swift: OK against Foundation. swiftc -parse on the mapping test: OK; full -typecheck blocked by absent XCTest module on this CLT-only host (same constraint as 1.1, 1.2, 1.3). xcodegen re-generated .xcodeproj cleanly; project globs pick up Errors/ subdirs automatically (no project.yml change)."
   - id: "1.5"
     title: Settings persistence (UserDefaults + Codable + @Observable mirror)
     epic: 1

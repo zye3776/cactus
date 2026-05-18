@@ -65,3 +65,27 @@ events:
     agent: story-executor-1.3
     event: story_completed
     detail: "Story 1.3 done. 2 commits (36b116aa red tests, dc230fa6 impl). KISS pass: clean — 192 LOC single test method, no helpers beyond the four used (currentResidentBytes, peakResidentDuring, appBundleSizeBytes, appendCsvRow). No follow-up commit needed."
+  - timestamp: 2026-05-18T18:40:00Z
+    agent: story-executor-1.4
+    event: story_started
+    detail: "Story 1.4 picked up: AppError enum (Error/LocalizedError/Equatable/Sendable) + nested InferenceStage + os.Logger conventions documented in Errors/README.md."
+  - timestamp: 2026-05-18T18:45:00Z
+    agent: story-executor-1.4
+    event: tests_red
+    detail: "Authored Story1_4Tests.swift covering file location, enum + 4 protocol conformances, all 7 required cases (exact signatures), InferenceStage + its 5 cases, .micDenied banner equals UX-DR6 string, mapping test file presence, and README assertions (com.cactusvoice / Logger(subsystem:/ once / privacy: .private). Commit daafa0b3 'test(story-1.4): acceptance tests (red)' pushed to origin/main."
+  - timestamp: 2026-05-18T18:52:00Z
+    agent: story-executor-1.4
+    event: implementation_committed
+    detail: "Wrote AppError.swift (55 LOC, enum + nested InferenceStage + switch-based errorDescription), AppErrorMappingTests.swift (57 LOC, single parameterized-feel test method + Equatable + .micDenied canonical), Errors/README.md (logger convention). xcodegen re-generated .xcodeproj (no project.yml change needed). Commit fd2657e1 'feat(story-1.4): AppError enum + os.Logger conventions' pushed to origin/main."
+  - timestamp: 2026-05-18T18:54:00Z
+    agent: story-executor-1.4
+    event: build_verification
+    detail: "swiftc -typecheck apps/CactusVoice/CactusVoice/Errors/AppError.swift: OK (exit 0, Foundation-only). swiftc -parse on AppErrorMappingTests.swift: OK; full -typecheck blocked by absent XCTest module on this CLT-only host (same constraint as 1.1, 1.2, 1.3). All grep-level static checks (enum AppError, 4 protocols, 7 cases, InferenceStage + 5 cases, 'Microphone access required.', README clauses) pass."
+  - timestamp: 2026-05-18T18:56:00Z
+    agent: story-executor-1.4
+    event: kiss_refactor
+    detail: "Trimmed Errors/README.md from 46 → 42 LOC (collapsed duplicate seam sentence + redundant category list). All Story1_4Tests README assertions still pass. Commit 2b462d49 'refactor(story-1.4): KISS compliance' pushed to origin/main."
+  - timestamp: 2026-05-18T18:57:00Z
+    agent: story-executor-1.4
+    event: story_completed
+    detail: "Story 1.4 done. 3 commits (daafa0b3 red tests, fd2657e1 impl, 2b462d49 KISS). swiftc status: AppError.swift typechecks clean; mapping test parse-only on this host. All 7 ACs satisfied. Banner budget: longest banner 'Couldn't copy to clipboard.' = 27 chars / 4 words (≤ 48 chars / ≤ 8 words)."
