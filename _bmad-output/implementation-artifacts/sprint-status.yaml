@@ -1,8 +1,9 @@
 sprint:
   name: CactusVoice — Epics 1–3
   epic_range: [1, 2, 3]
-  state: in_progress
+  state: done
   started: 2026-05-18
+  completed: 2026-05-19
   fork_remote: origin → https://github.com/zye3776/cactus.git
   upstream_remote: upstream → https://github.com/cactus-compute/cactus
   push_target: origin (fork only)
@@ -125,4 +126,8 @@ stories:
   - id: "3.5"
     title: End-to-end baseline wiring + integration test
     epic: 3
-    state: backlog
+    state: done
+    commits:
+      - "50b060ac test(story-3.5): acceptance tests (red)"
+      - "417da2a1 feat(story-3.5): baseline pipeline integration test + fixtures README"
+    notes: "BaselinePipelineTests.swift (327 LOC, ≤ 360 budget) — single XCTest in CactusVoiceTests/Inference/BaselinePipelineTests.swift wiring AudioCapture → SileroVAD → WhisperSession → TranscriptModel end-to-end plus CactusRuntime for handle ownership. Feeds a 10 s WAV through AudioCapture via the StubAudioInputSource seam from Story 3.4, pushing decoded samples in 1024-sample chunks with 1 ms inter-chunk sleeps. After AudioCapture.stop() + Whisper drain, asserts: (1) TranscriptModel.committed non-empty, (2) WhisperOpts.researchDefaults(initialPrompt: nil).language == \"en\" AND no Han/CJK codepoints in committed text (two-layer language=en check), (3) at least one .speechStart + one .speechEnd observed on AudioCapture.vadEventStream, (4) WER ≤ 0.15 via inline Levenshtein on whitespace-tokenized words after lowercase + punctuation strip. Inline wavReader (#if canImport(AVFoundation) gated; AVAudioFile + AVAudioConverter to 16 kHz mono Float32 non-interleaved — same canonical format as AVAudioInputSource in 3.4). Tear-down: WhisperSession.close() + CactusRuntime.unloadAll(). Host gating: XCTSkipUnless on CACTUSVOICE_WHISPER_PATH + CACTUSVOICE_VAD_PATH + CACTUSVOICE_BASELINE_WAV (last defaults to Fixtures/baseline_10s.wav, also XCTSkipUnless'd if the file is absent on disk). Reference transcript at Fixtures/baseline_10s.transcript.txt (lowercase, no punctuation, single-space). Fixtures/README.md (62 LOC) documents WAV format + reference transcript + WER method + env-var gating + host limitation. Five documented deviations (story-3.5.md): (1) WAV reader uses AVAudioFile + AVAudioConverter instead of raw byte parsing (~60 LOC saved); (2) inline Levenshtein WER (~25 LOC, dependency-free) over JiWER-style libraries; (3) two-layer language=en check (source-of-truth WhisperOpts assertion + no-CJK sweep on output); (4) pipeline wired via StubAudioInputSource seam (hermetic, reproducible, exercises same buffering / VAD-window / Whisper-batch path as production); (5) CactusRuntime initialized in .minimal mode (Whisper + VAD only — no LLM slot needed for the baseline pipeline). swiftc -typecheck -warnings-as-errors on all production deps (AppError + PermissionsCoordinator + ModelCatalog + BoundedSPSCBuffer + AudioCapture + SileroVAD + Settings + TranscriptUpdate + TranscriptModel + TranscriptTextStorage + CactusRuntime + WhisperSessionType + WhisperEvent + WhisperSession + FFIShim, target arm64-apple-macos14.0, sdk macosx): exit 0, warning-clean (SWIFT_TREAT_WARNINGS_AS_ERRORS: YES). swiftc -parse on BaselinePipelineTests.swift + Story3_5Tests.swift: exit 0. Full -typecheck on the test files requires XCTest module on a host with Xcode.app (same constraint as 1.1–3.4). xcodegen regenerated CactusVoice.xcodeproj cleanly (Inference/ + Fixtures/ folders picked up by existing CactusVoiceTests source globs). All 16 Story3_5Tests grep-level checks pass on disk (file exists, XCTestCase, four-actor wiring, CactusRuntime, XCTSkipUnless with three env vars, .committed read, wer fn + Levenshtein doc, 0.15 bound, .speechStart + .speechEnd asserts, \"en\" literal, wavReader + canImport guard, tearDown / unloadAll, README exists + content, 360-LOC budget). KISS: no refactor commit — implementation already minimal (one test method, one WAV reader, one WER helper, no alternative pipelines, no parameterized variants, AudioInputSource stub reused from Story 3.4). Epic 3: 5 of 5 stories done — epic complete."
