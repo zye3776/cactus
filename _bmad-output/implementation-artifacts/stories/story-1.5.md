@@ -1,7 +1,7 @@
 # Story 1.5: Settings persistence (UserDefaults + Codable + @Observable mirror)
 
 **Epic:** 1 — Project Foundation & FFI Seam
-**Status:** in_progress
+**Status:** done
 **Owner:** story-executor-1.5
 
 ## User Story

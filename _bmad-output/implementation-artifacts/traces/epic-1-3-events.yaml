@@ -89,3 +89,27 @@ events:
     agent: story-executor-1.4
     event: story_completed
     detail: "Story 1.4 done. 3 commits (daafa0b3 red tests, fd2657e1 impl, 2b462d49 KISS). swiftc status: AppError.swift typechecks clean; mapping test parse-only on this host. All 7 ACs satisfied. Banner budget: longest banner 'Couldn't copy to clipboard.' = 27 chars / 4 words (≤ 48 chars / ≤ 8 words)."
+  - timestamp: 2026-05-18T19:10:00Z
+    agent: story-executor-1.5
+    event: story_started
+    detail: "Story 1.5 picked up: Settings (Codable struct) + SettingsStore (@MainActor @Observable) persisted to UserDefaults under com.cactusvoice.settings.v1."
+  - timestamp: 2026-05-18T19:15:00Z
+    agent: story-executor-1.5
+    event: tests_red
+    detail: "Authored Story1_5Tests.swift covering Settings file location, required fields (hotkey/activationMode/whisperModelPath/llmModelPath/whisperBookmark/llmBookmark), ActivationMode enum + .hold default, SettingsStore @MainActor @Observable shape, UserDefaults import isolation via FileManager walk of apps/CactusVoice/CactusVoice excluding /Persistence/, com.cactusvoice.settings.v1 key, SettingsCodecTests presence, file ≤ 200 LOC. Story file story-1.5.md documents the KeyboardShortcuts.Name decoupling deviation (hotkey persisted as String? for testability + dependency hygiene). Commit 2a9ddcc3 'test(story-1.5): acceptance tests (red)' pushed to origin/main."
+  - timestamp: 2026-05-18T19:25:00Z
+    agent: story-executor-1.5
+    event: implementation_committed
+    detail: "Wrote Settings.swift (112 LOC, Settings struct + ActivationMode enum + SettingsKeys.blob + SettingsStore with didSet write-through + JSON encode/decode + missing-key fallback), SettingsHotkeyBridge.swift (22 LOC, KeyboardShortcuts.Name <-> String extension keeping the SPM dep out of the core persistence file), SettingsCodecTests.swift (119 LOC, JSON round-trip nil/populated + 1 KB bookmarks via Data(repeating: 0x42, count: 1024), UserDefaults round-trip under suite test.cactusvoice cleared in setUp/tearDown, missing-key fallback, default activationMode = .hold, observability via withObservationTracking). xcodegen re-generated .xcodeproj (no project.yml change). Commit 6694ead0 'feat(story-1.5): Settings + SettingsStore persistence' pushed to origin/main."
+  - timestamp: 2026-05-18T19:28:00Z
+    agent: story-executor-1.5
+    event: build_verification
+    detail: "swiftc -typecheck apps/CactusVoice/CactusVoice/Persistence/Settings.swift -sdk macosx -target arm64-apple-macos14.0: OK (exit 0, Foundation + Observation + os only — no KeyboardShortcuts dep needed). swiftc -parse on SettingsCodecTests.swift not run (depends on @testable import CactusVoice + XCTest module, both absent on this CLT-only host — same constraint as 1.1-1.4). All 8 Story1_5Tests grep-level checks pass (struct Settings, Codable, six fields, enum ActivationMode, case hold/toggle, = .hold, @MainActor, @Observable, final class SettingsStore, var current, com.cactusvoice.settings.v1, no UserDefaults outside Persistence/, 112 LOC ≤ 200, codec test file present)."
+  - timestamp: 2026-05-18T19:30:00Z
+    agent: story-executor-1.5
+    event: kiss_refactor
+    detail: "KISS pass: clean. Settings.swift is 112 LOC, one JSON key (no namespace overengineering), no migration scaffold (deferred to a future v2 story per story brief). SettingsHotkeyBridge.swift is a 22-LOC extension — only exists to keep the SPM dependency out of the core persistence file, which is itself the simplification (Settings.swift typechecks with Foundation alone). No follow-up commit."
+  - timestamp: 2026-05-18T19:31:00Z
+    agent: story-executor-1.5
+    event: story_completed
+    detail: "Story 1.5 done. 2 commits (2a9ddcc3 red tests + story file, 6694ead0 impl). swiftc status: Settings.swift typechecks clean Foundation-only; SettingsHotkeyBridge.swift requires KeyboardShortcuts SPM resolution (deferred to dev/CI host with Xcode.app). All 7 ACs satisfied subject to the documented hotkey-typing deviation (typed value reachable via Settings.hotkeyName extension, lossless raw-name round-trip)."

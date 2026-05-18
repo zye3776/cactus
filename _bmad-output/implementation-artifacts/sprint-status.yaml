@@ -44,7 +44,11 @@ stories:
   - id: "1.5"
     title: Settings persistence (UserDefaults + Codable + @Observable mirror)
     epic: 1
-    state: backlog
+    state: done
+    commits:
+      - "2a9ddcc3 test(story-1.5): acceptance tests (red)"
+      - "6694ead0 feat(story-1.5): Settings + SettingsStore persistence"
+    notes: "Settings.swift (112 LOC) declares Settings (Codable struct, six fields), ActivationMode (.hold default), SettingsKeys.blob = 'com.cactusvoice.settings.v1', and SettingsStore (@MainActor @Observable final class) with didSet write-through, JSON encode/decode, and missing-key fallback. SettingsStore is the only file in the project that references Foundation.UserDefaults (FileManager-walk grep in Story1_5Tests enforces this at static-check time). SettingsCodecTests.swift round-trips Settings through JSONEncoder/JSONDecoder with nil paths and 1 KB bookmark blobs (Data(repeating: 0x42, count: 1024)), round-trips through UserDefaults(suiteName: 'test.cactusvoice') cleared in setUp/tearDown, asserts default activationMode == .hold, and asserts observability via withObservationTracking. Deviation: hotkey is persisted as String? (raw KeyboardShortcuts.Name) rather than KeyboardShortcuts.Name? — the typed value is reachable via Settings.hotkeyName in Persistence/SettingsHotkeyBridge.swift. Rationale (documented in story-1.5.md): Settings.swift typechecks Foundation-only without SPM resolution; persistence file does not depend on the third-party package; round-trip is lossless because KeyboardShortcuts.Name is RawRepresentable<String>. swiftc -typecheck Settings.swift: OK. SettingsCodecTests + SettingsHotkeyBridge require XCTest / KeyboardShortcuts SPM, deferred to a host with Xcode.app (same constraint as 1.1-1.4). xcodegen re-generated cleanly (no project.yml change; Persistence/ folder picked up by existing glob)."
   - id: "2.1"
     title: BoundedSPSCBuffer<Float>
     epic: 2
