@@ -89,8 +89,8 @@ public final class BoundedSPSCBuffer<T>: @unchecked Sendable {
     /// (tail advances), `overrunCount` increases by the drop count, and the
     /// new overrunCount is emitted on `overrunStream`. Never blocks, never
     /// reallocates.
-    public func write<S: Sequence>(_ samples: S) where S.Element == T {
-        let incoming = Array(samples)
+    public func write(_ samples: [T]) {
+        let incoming = samples
         guard !incoming.isEmpty else { return }
 
         let emittedOverrun: Int? = lock.withLock { () -> Int? in
