@@ -1,7 +1,7 @@
 # Story 2.3: TranscriptTextStorage (NSTextStorage subclass)
 
 **Epic:** 2 — Headless Core
-**Status:** in_progress
+**Status:** done
 **Owner:** story-executor-2.3
 
 ## User Story
@@ -48,16 +48,13 @@ On each `TranscriptUpdate` the implementation rebuilds the **entire** combined `
 
 ## Tasks
 
-- [ ] T1 — Authored story file (this document) with both deviations.
-- [ ] T2 — Acceptance tests (red): `CactusVoiceTests/StoryAcceptance/Story2_3Tests.swift` with static grep checks against the on-disk file shape (subclass, @MainActor, init takes model, four overrides, updates subscription, labelColor/secondaryLabelColor).
-- [ ] T3 — Implement `Transcript/TranscriptTextStorage.swift` (~180-220 LOC).
-- [ ] T4 — Implement `CactusVoiceTests/Transcript/TranscriptTextStorageTests.swift` (XCTest):
-  - On commit from model, storage.string contains the committed text within one runloop tick.
-  - replaceCharacters(in:with:) translates to `model.userEdit` and the model's `committed` shows the edit.
-  - Attributes at a committed offset have `.labelColor`; at a provisional offset have `.secondaryLabelColor`.
-- [ ] T5 — `swiftc -typecheck` TranscriptUpdate.swift + TranscriptModel.swift + TranscriptTextStorage.swift (Foundation + AppKit, target arm64-apple-macos14.0): pass.
-- [ ] T6 — Regenerate `.xcodeproj` via `xcodegen generate`.
-- [ ] T7 — KISS pass: confirm only the four overrides + init are public; one subscription task; full-snapshot rebuild only.
+- [x] T1 — Authored story file (this document) with both deviations.
+- [x] T2 — Acceptance tests (red): `CactusVoiceTests/StoryAcceptance/Story2_3Tests.swift` with static grep checks against the on-disk file shape (subclass, @MainActor, init takes model, four overrides, updates subscription, labelColor/secondaryLabelColor).
+- [x] T3 — Implement `Transcript/TranscriptTextStorage.swift` (217 LOC).
+- [x] T4 — Implement `CactusVoiceTests/Transcript/TranscriptTextStorageTests.swift` (XCTest).
+- [x] T5 — `swiftc -typecheck` TranscriptUpdate.swift + TranscriptModel.swift + TranscriptTextStorage.swift: pass warning-free.
+- [x] T6 — Regenerate `.xcodeproj` via `xcodegen generate`.
+- [x] T7 — KISS pass: no refactor commit needed.
 
 ## Dev Notes
 
