@@ -357,3 +357,27 @@ events:
     agent: orchestrator
     event: epic_completed
     detail: "Epic 1-3 cycle complete. 15 stories done. Final commits sequence: 117bdea3/f8baf727 (1.1), 9d125972/fd16cdf5 (1.2), 36b116aa/dc230fa6 (1.3), daafa0b3/fd2657e1/2b462d49 (1.4), 2a9ddcc3/6694ead0 (1.5), c63806a2/9508aa7b/25dfe320 (2.1), 3882af62/823631fa (2.2), cccdc77b/6f5bf457 (2.3), 39622913/309eec9b (2.4), a83f5e27/d7350a47 (2.5), f130e948/2152bc62 (3.1), 34475140/de71fdf9 (3.2), 2d764e96/7812bc9e (3.3), e1847e8f/e71d5500 (3.4), 50b060ac/417da2a1 (3.5). All pushed to origin/main (fork zye3776/cactus). The baseline pipeline is provable on a host with Xcode.app + Whisper + Silero VAD + a 10 s WAV fixture; Epic 4 (Floating Capture Window & Hot Path) is the next epic on the roadmap."
+  - timestamp: 2026-05-19T01:00:00Z
+    agent: trace-agent
+    event: mermaid_generated
+    detail: "Sequence diagram generated at _bmad-output/implementation-artifacts/traces/reports/epic-1-3-sequence.md. One swim lane per story executor + Orchestrator; per-story messages cover red ATDD, implementation commit, build verification, optional KISS, and completion. Contains opening `sequenceDiagram` token and 60+ `->>` arrows."
+  - timestamp: 2026-05-19T01:01:00Z
+    agent: trace-agent
+    event: retrospective_generated
+    detail: "Retrospective written to _bmad-output/implementation-artifacts/retrospective-epic-1-3.md. Sections: what went well (protocol-seam uniformity, KISS budgets, two-string TranscriptModel, TDD discipline, actor isolation); what was harder (XCTest deferral, AVAudioEngine seams, AttributedString range axis, Sendable wrappers, public-from-internal compile error); recurring deviations catalogued (swift-atomics absence → OSAllocatedUnfairLock; KeyboardShortcuts absence → String? hotkey + bridge; XCTest absent → all runtime tests deferred; VAD finalization chronology shift; protocol seams beyond architecture; FFIStub.c unimplemented); action items for the dev host; story-by-story commit table."
+  - timestamp: 2026-05-19T01:02:00Z
+    agent: trace-agent
+    event: nfr_assessed
+    detail: "NFR assessment written to _bmad-output/implementation-artifacts/nfr-assessment-epic-1-3.md. Aggregate 6 PASS / 7 CONCERN / 0 FAIL. PASS: sandbox+entitlements, security-scoped boundary, clipboard privacy, mic consent+revoke, actor isolation, warning-clean builds, LOC budgets. CONCERN: NFR-001 tiered memory, NFR-002 pre-roll, NFR-009 stop<=100ms, concurrent-load idempotency, bookmark round-trip, SPSC fuzz — all structurally implemented but runtime-unverified (CLT-only host)."
+  - timestamp: 2026-05-19T01:03:00Z
+    agent: trace-agent
+    event: quality_gate
+    detail: "Quality gate decision: CONCERNS. Written to _bmad-output/implementation-artifacts/quality-gate-epic-1-3.md. Rationale: 15 stories shipped to source; all production code typechecks warning-clean under -warnings-as-errors; sandbox posture statically verified; KISS budgets respected. But no XCTest runtime verification, no xcodebuild, FFIStub.c returns unimplemented, baseline pipeline integration test unrun, two SPM deps absent. Next blocker is environmental ('set up a real build host'), not design. Expect gate to flip to PASS after first successful xcodebuild test run."
+  - timestamp: 2026-05-19T01:04:00Z
+    agent: trace-agent
+    event: user_guide_generated
+    detail: "Developer user guide written to _bmad-output/implementation-artifacts/user-guide-epic-1-3.md. Eight steps for a developer on a full-Xcode Mac: prerequisites, xcodegen + workspace open, Cmd+B build, Cmd+U tests, integration test env vars (CACTUSVOICE_WHISPER_PATH / VAD_PATH / BASELINE_WAV + Fixtures reference transcript), measurement spike env vars (+ CACTUSVOICE_GEMMA_PATH + APP_BUNDLE_PATH), boundary check (`bash apps/CactusVoice/Scripts/check-permission-boundaries.sh`), real libcactus wiring (TODO markers in FFIStub.c + FFIShim.swift). Also includes p1-gap-remediation note pointing at per-test env requirements."
+  - timestamp: 2026-05-19T01:05:00Z
+    agent: orchestrator
+    event: post_epic_completed
+    detail: "Post-epic synthesis cycle complete. Six documents generated under _bmad-output/implementation-artifacts/ (sequence diagram, retrospective, p1 gap remediation, NFR assessment, quality gate, user guide). Quality gate decision: CONCERNS. All artifacts pushed to origin/main."
