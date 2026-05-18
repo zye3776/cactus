@@ -1,7 +1,7 @@
 # Story 2.4: PermissionsCoordinator (mic + security-scoped bookmarks)
 
 **Epic:** 2 — Headless Core
-**Status:** in_progress
+**Status:** done
 **Owner:** story-executor-2.4
 
 ## User Story
@@ -46,12 +46,12 @@ The CI-check stub is intentionally a grep — not a swift-syntax or SwiftLint cu
 ## Tasks
 
 - [x] T1 — Author this story file.
-- [ ] T2 — Acceptance tests (red): `CactusVoiceTests/StoryAcceptance/Story2_4Tests.swift`.
-- [ ] T3 — Implement `Permissions/PermissionsCoordinator.swift` + `Scripts/check-permission-boundaries.sh` + `CactusVoiceTests/Permissions/PermissionsCoordinatorTests.swift`.
-- [ ] T4 — `swiftc -typecheck` PermissionsCoordinator.swift: pass.
-- [ ] T5 — Run boundary script: exits 0.
-- [ ] T6 — Regenerate `.xcodeproj` via `xcodegen generate`.
-- [ ] T7 — KISS pass.
+- [x] T2 — Acceptance tests (red): `CactusVoiceTests/StoryAcceptance/Story2_4Tests.swift`.
+- [x] T3 — Implement `Permissions/PermissionsCoordinator.swift` (127 LOC) + `Scripts/check-permission-boundaries.sh` (37 LOC) + `CactusVoiceTests/Permissions/PermissionsCoordinatorTests.swift` (75 LOC).
+- [x] T4 — `swiftc -typecheck` PermissionsCoordinator.swift: pass (exit 0).
+- [x] T5 — Run boundary script: exits 0.
+- [x] T6 — Regenerate `.xcodeproj` via `xcodegen generate`.
+- [x] T7 — KISS pass: no refactor commit needed.
 
 ## Dev Notes
 
