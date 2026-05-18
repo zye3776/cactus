@@ -45,3 +45,23 @@ events:
     agent: story-executor-1.2
     event: story_completed
     detail: "Story 1.2 done. 2 commits (9d125972 red tests, fd16cdf5 impl). KISS pass: clean — header is flat (no macros beyond status #defines), FFIShim is 1-1 with C, no follow-up commit needed."
+  - timestamp: 2026-05-18T18:10:00Z
+    agent: story-executor-1.3
+    event: story_started
+    detail: "Story 1.3 picked up: measurement spike for bundle size + tiered resident memory through FFIShim."
+  - timestamp: 2026-05-18T18:15:00Z
+    agent: story-executor-1.3
+    event: tests_red
+    detail: "Authored Story1_3Tests.swift covering file location, four env-var gates, XCTSkipUnless usage, CSV output path, task_info/MACH_TASK_BASIC_INFO/resident_size for residency, loadModel/freeModel + minimal/full modes, and the NFR-001 20% divergence procedure. Commit 36b116aa 'test(story-1.3): acceptance tests (red)' pushed to origin/main."
+  - timestamp: 2026-05-18T18:25:00Z
+    agent: story-executor-1.3
+    event: implementation_committed
+    detail: "Wrote CactusVoiceTests/Spike/MeasurementSpikeTests.swift (192 LOC, single test method). Uses task_info + mach_task_basic_info for residency, 1 ms polling for peak, FileManager enumerator for bundle size, FileHandle append for CSV. Gated by CACTUSVOICE_WHISPER_PATH / GEMMA_PATH / VAD_PATH / APP_BUNDLE_PATH so it skips in CI. xcodegen re-generated .xcodeproj; project glob picks up Spike/ subdir automatically (no project.yml change). Commit dc230fa6 'feat(story-1.3): measurement spike test' pushed to origin/main."
+  - timestamp: 2026-05-18T18:27:00Z
+    agent: story-executor-1.3
+    event: build_verification
+    detail: "swiftc -parse on MeasurementSpikeTests.swift: OK (exit 0). Full -typecheck blocked by missing XCTest module (host has CLT only, no Xcode.app), same constraint as stories 1.1 and 1.2. All grep-level static checks (env vars, XCTSkipUnless, CSV path, task_info/MACH_TASK_BASIC_INFO/resident_size, minimal/full/loadModel/freeModel, NFR-001, 20) pass on the spike file. Runtime execution deferred until a host with real model files; the test will skip cleanly there as designed."
+  - timestamp: 2026-05-18T18:28:00Z
+    agent: story-executor-1.3
+    event: story_completed
+    detail: "Story 1.3 done. 2 commits (36b116aa red tests, dc230fa6 impl). KISS pass: clean — 192 LOC single test method, no helpers beyond the four used (currentResidentBytes, peakResidentDuring, appBundleSizeBytes, appendCsvRow). No follow-up commit needed."

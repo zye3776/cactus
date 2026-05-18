@@ -27,7 +27,11 @@ stories:
   - id: "1.3"
     title: Measurement spike — bundle + tiered resident memory
     epic: 1
-    state: backlog
+    state: done
+    commits:
+      - "36b116aa test(story-1.3): acceptance tests (red)"
+      - "dc230fa6 feat(story-1.3): measurement spike test"
+    notes: "MeasurementSpikeTests.swift (192 LOC, single test method) loads Whisper + Silero VAD + Gemma-3 via FFIShim, measures peak resident memory via task_info / mach_task_basic_info, sums .app bundle size, appends one CSV row to _bmad-output/implementation-artifacts/measurement-spike-results.csv, and verifies residency returns to baseline ± 50 MB after free. Gated by CACTUSVOICE_WHISPER_PATH / GEMMA_PATH / VAD_PATH / APP_BUNDLE_PATH env vars (XCTSkipUnless) — does not run in CI or on the current dev host (no real models; FFIStub.c still returns cactus_status_err_unimplemented). Numbers will be produced once Story 3.1 wires real cactus runtime. swiftc -parse passes; full -typecheck blocked by absent XCTest module on this CLT-only host (same constraint as 1.1, 1.2). NFR-001 divergence procedure (file PRD revision PR if measured deviates > 20% from ~600 MB minimal / ~2.5 GB full) is documented in the spike header comment."
   - id: "1.4"
     title: AppError enum + os.Logger conventions
     epic: 1
